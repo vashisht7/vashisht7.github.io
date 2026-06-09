@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vashisht Devasani - AI Engineering Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 250px;
+                max-height: 300px;
+            }
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .skill-tag {
+            transition: all 0.2s;
+        }
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+
+<!-- Chosen Palette: Slate Neutrals with Blue and Emerald Accents (Minimalist & Tech-Focused) -->
+<!-- Application Structure Plan: The SPA uses a dashboard structure to transform a static resume into an interactive exploration of engineering capabilities. It includes a Hero/Summary, an interactive Skills Analytics section (visualizing domain expertise), a toggleable Experience & Impact timeline, and an expandable Projects deep-dive. This non-linear structure allows interviewers or recruiters to quickly assess high-level metrics via charts and then drill down into specific technical implementations and outcomes based on their interests. -->
+<!-- Visualization & Content Choices: 
+1. Resume Skills -> Goal: Inform/Organize -> Viz: Doughnut Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Shows distribution of expertise (AI vs Cloud vs Backend) clearly.
+2. Experience Metrics -> Goal: Compare/Highlight Impact -> Viz: Bar Chart (Chart.js) -> Interaction: Hover -> Justification: Visually quantifies resume bullets (e.g., 40% efficiency gain).
+3. Projects/Experience -> Goal: Inform/Deep Dive -> Viz: Interactive Accordions/Tabs (HTML/JS) -> Interaction: Click to expand -> Justification: Keeps UI clean while allowing deep dives into complex architecture details.
+Library/Method: Chart.js for data viz, Vanilla JS for interactivity, Tailwind for layout. NO SVG/Mermaid used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation / Header -->
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">&#128187; Vashisht Devasani</h1>
+                <p class="text-slate-400 text-sm">AI Engineer | Charlotte, NC</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-6 text-sm font-semibold">
+                <a href="#summary" class="hover:text-blue-400 transition-colors">Summary</a>
+                <a href="#analytics" class="hover:text-blue-400 transition-colors">Skills</a>
+                <a href="#experience" class="hover:text-blue-400 transition-colors">Experience</a>
+                <a href="#projects" class="hover:text-blue-400 transition-colors">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-16">
+
+        <!-- Section 1: Executive Summary -->
+        <section id="summary" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold mb-4 text-slate-800 border-b pb-2">&#128640; Executive Profile</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed">
+                This section provides a high-level overview of my professional background. It summarizes 6 years of experience in designing production-grade Generative AI systems, highlighting my core focus on RAG architectures, LLM fine-tuning, and scalable backend infrastructure.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col items-center text-center">
+                    <span class="text-4xl mb-2">&#9201;</span>
+                    <h3 class="font-bold text-xl text-slate-800">6+ Years</h3>
+                    <p class="text-sm text-slate-500">Professional Engineering Experience</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col items-center text-center">
+                    <span class="text-4xl mb-2">&#129302;</span>
+                    <h3 class="font-bold text-xl text-slate-800">Specialization</h3>
+                    <p class="text-sm text-slate-500">RAG Systems & LLM Fine-tuning</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col items-center text-center">
+                    <span class="text-4xl mb-2">&#9729;</span>
+                    <h3 class="font-bold text-xl text-slate-800">Cloud Certified</h3>
+                    <p class="text-sm text-slate-500">Azure AI Engineer Associate</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Skills Analytics -->
+        <section id="analytics" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold mb-4 text-slate-800 border-b pb-2">&#128202; Technical Arsenal</h2>
+                <p class="text-slate-600 mb-6 text-sm">
+                    Explore the distribution of my technical stack. This interactive chart categorizes my expertise across AI/ML, Cloud/DevOps, and Core Backend Languages, demonstrating a balanced full-stack AI engineering profile. Hover over segments for details.
+                </p>
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold mb-4 text-slate-800 border-b pb-2">&#128200; Quantified Impact</h2>
+                <p class="text-slate-600 mb-6 text-sm">
+                    Engineering is about measurable results. This chart visualizes the specific performance improvements and efficiency gains achieved in production environments across recent enterprise and standalone projects.
+                </p>
+                <div class="chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Professional Experience (Interactive Tabs) -->
+        <section id="experience" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold mb-4 text-slate-800 border-b pb-2">&#128188; Professional Experience</h2>
+            <p class="text-slate-600 mb-6">
+                Navigate through my professional roles to understand my contributions to enterprise-scale AI. Use the tabs to toggle between different roles and view specific architectural implementations and tools used in production.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+                <button class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition" onclick="switchTab('exp-boa', this)">Bank of America</button>
+                <button class="px-6 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition" onclick="switchTab('exp-edu', this)">Education & Certs</button>
+            </div>
+
+            <div id="exp-boa" class="tab-content active">
+                <div class="flex justify-between items-start flex-col md:flex-row mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800">Application Programmer V</h3>
+                        <p class="text-blue-600 font-semibold">Bank of America</p>
+                    </div>
+                    <span class="text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full text-sm mt-2 md:mt-0">Aug 2023 - Present</span>
+                </div>
+                
+                <ul class="space-y-4 text-slate-700 list-none ml-0 pl-0">
+                    <li class="flex items-start">
+                        <span class="mr-2 text-blue-500">&#10148;</span>
+                        <span><strong>GenAI Architecture:</strong> Designed enterprise GenAI solutions utilizing QLoRA fine-tuned LLaMA-3 models and advanced RAG architectures.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-blue-500">&#10148;</span>
+                        <span><strong>High-Performance Inference:</strong> Deployed PyTorch inference pipelines served via vLLM on Azure, significantly increasing throughput and reducing latency.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-blue-500">&#10148;</span>
+                        <span><strong>Measurable Impact:</strong> Improved automated document extraction efficiency by <strong>40%</strong>.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 text-blue-500">&#10148;</span>
+                        <span><strong>Evaluation & Alignment:</strong> Built robust prompt engineering and LLM evaluation frameworks using Ragas, TruLens, and standard NLP metrics (ROUGE/BLEU) to systematically reduce hallucinations.</span>
+                    </li>
+                </ul>
+
+                <div class="mt-6">
+                    <h4 class="text-sm font-bold text-slate-500 uppercase mb-2">Tech Stack</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">LLaMA-3</span>
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">QLoRA</span>
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">vLLM</span>
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">PyTorch</span>
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">Azure</span>
+                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded border border-blue-200 text-sm font-mono skill-tag">Ragas</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="exp-edu" class="tab-content hidden">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">&#127891; Academic Background</h3>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-slate-800">M.S. in Computer Science</h4>
+                            <p class="text-slate-600">University of Texas at Dallas</p>
+                            <p class="text-sm text-slate-500">Dallas, TX | 2021-2023</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">B.Tech in Computer Science</h4>
+                            <p class="text-slate-600">CMR College of Engineering & Technology</p>
+                            <p class="text-sm text-slate-500">Hyderabad, India | 2015-2019</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">&#127941; Certifications</h3>
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-center gap-4">
+                            <span class="text-3xl">&#9729;</span>
+                            <div>
+                                <h4 class="font-bold text-blue-900">Microsoft Certified</h4>
+                                <p class="text-blue-800">Azure AI Engineer Associate</p>
+                                <p class="text-sm text-blue-600 mt-1">Issued: 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Project Architecture Deep Dives (Accordions) -->
+        <section id="projects" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold mb-4 text-slate-800 border-b pb-2">&#128736; Architecture & Projects</h2>
+            <p class="text-slate-600 mb-6">
+                Interact with the project cards below to uncover the specific engineering challenges solved. Click on any project to expand its architecture details, revealing the underlying mechanics of the RAG engines, vector databases, and multi-agent systems I have built.
+            </p>
+
+            <div class="space-y-4">
+                
+                <!-- Project 1 -->
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <button class="w-full text-left p-5 bg-slate-50 hover:bg-slate-100 flex justify-between items-center transition focus:outline-none" onclick="toggleAccordion('proj1')">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">LocalStream | Self-Hosted Video RAG Engine</h3>
+                            <p class="text-sm text-slate-500 mt-1">FastAPI, PyTorch, Whisper, Qdrant</p>
+                        </div>
+                        <span id="proj1-icon" class="text-2xl text-slate-400">&#43;</span>
+                    </button>
+                    <div id="proj1" class="hidden p-5 border-t border-slate-200 bg-white">
+                        <p class="text-slate-700 mb-4"><strong>Objective:</strong> Build a fully offline RAG platform to enable semantic search across local video and audio libraries without relying on external, cost-prohibitive APIs.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-2">&#9881; Implementation Details</h4>
+                                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                                    <li>Utilized Sentence Transformers to generate <strong>384D embeddings</strong>.</li>
+                                    <li>Indexed millions of vectors in <strong>Qdrant</strong> ensuring sub-second retrieval times.</li>
+                                    <li>Implemented <strong>hybrid search</strong> (Dense + Sparse) to improve recall.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-900 mb-2">&#128640; Advanced Mechanics</h4>
+                                <ul class="text-sm text-blue-800 space-y-2 list-disc pl-4">
+                                    <li>Integrated <strong>BGE-reranking</strong> post-retrieval to optimize context precision.</li>
+                                    <li>Served local inference using <strong>Qwen LLM</strong> to maintain complete data privacy.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <button class="w-full text-left p-5 bg-slate-50 hover:bg-slate-100 flex justify-between items-center transition focus:outline-none" onclick="toggleAccordion('proj2')">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Agentic RAG Codebase Assistant</h3>
+                            <p class="text-sm text-slate-500 mt-1">LangGraph, Claude API, Pinecone</p>
+                        </div>
+                        <span id="proj2-icon" class="text-2xl text-slate-400">&#43;</span>
+                    </button>
+                    <div id="proj2" class="hidden p-5 border-t border-slate-200 bg-white">
+                        <p class="text-slate-700 mb-4"><strong>Objective:</strong> Develop a multi-agent reasoning system capable of complex codebase analysis and developer assistance, moving beyond simple single-turn QA.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-2">&#9881; Implementation Details</h4>
+                                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                                    <li>Architected the control flow using <strong>LangGraph</strong> for cyclic, multi-agent orchestration.</li>
+                                    <li>Integrated <strong>Claude API</strong> for reasoning and <strong>Pinecone</strong> for high-dimensional code snippet vector storage.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-emerald-900 mb-2">&#128737; Guardrails & Reliability</h4>
+                                <ul class="text-sm text-emerald-800 space-y-2 list-disc pl-4">
+                                    <li>Designed <strong>self-correcting search loops</strong>: agents dynamically alter queries if initial retrieval fails.</li>
+                                    <li>Applied <strong>Ragas validation</strong> iteratively during execution to drastically reduce code hallucinations during multi-step reasoning.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <button class="w-full text-left p-5 bg-slate-50 hover:bg-slate-100 flex justify-between items-center transition focus:outline-none" onclick="toggleAccordion('proj3')">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Study Buddy | Local AI Study Assistant</h3>
+                            <p class="text-sm text-slate-500 mt-1">Transformers.js, WebGPU, Firebase</p>
+                        </div>
+                        <span id="proj3-icon" class="text-2xl text-slate-400">&#43;</span>
+                    </button>
+                    <div id="proj3" class="hidden p-5 border-t border-slate-200 bg-white">
+                        <p class="text-slate-700 mb-4"><strong>Objective:</strong> Create a highly responsive, zero-operational-cost AI assistant running entirely within the user's browser, with seamless cloud synchronization.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-2">&#9881; Edge AI Implementation</h4>
+                                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                                    <li>Leveraged <strong>Transformers.js</strong> and <strong>WebGPU</strong> to execute local LLM inference directly in the browser environment.</li>
+                                    <li>Achieved <strong>zero operational API costs</strong> by moving compute to the client side.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-amber-900 mb-2">&#128200; Backend Optimization</h4>
+                                <ul class="text-sm text-amber-800 space-y-2 list-disc pl-4">
+                                    <li>Built secure data synchronization using <strong>Firebase/Firestore</strong>.</li>
+                                    <li>Engineered custom caching strategies that reduced Firestore read/write latency by <strong>40%</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <p>Interactive Portfolio & Architecture Breakdown</p>
+        <p class="text-sm mt-2">Built with Tailwind CSS & Vanilla JS | No SVG</p>
+    </footer>
+
+    <!-- Interactive Logic & Chart Rendering -->
+    <script>
+        // State Management for UI
+        const state = {
+            activeTabId: 'exp-boa',
+            openAccordionId: null
+        };
+
+        // Functional Navigation: Tab Switching
+        function switchTab(tabId, buttonElement) {
+            // Update State
+            state.activeTabId = tabId;
+
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('hidden');
+            });
+
+            // Reset all buttons styling
+            document.querySelectorAll('#experience button').forEach(btn => {
+                btn.className = 'px-6 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition';
+            });
+
+            // Show selected tab
+            const activeTab = document.getElementById(tabId);
+            activeTab.classList.remove('hidden');
+            activeTab.classList.add('active');
+
+            // Style active button
+            buttonElement.className = 'px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition';
+        }
+
+        // Functional Navigation: Accordion Toggle
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            
+            if (content.classList.contains('hidden')) {
+                // Open
+                content.classList.remove('hidden');
+                icon.innerHTML = '&#8722;'; // Minus symbol
+                state.openAccordionId = id;
+            } else {
+                // Close
+                content.classList.add('hidden');
+                icon.innerHTML = '&#43;'; // Plus symbol
+                state.openAccordionId = null;
+            }
+        }
+
+        // Base Data for Charts
+        const chartData = {
+            skills: {
+                labels: ['AI / ML / NLP', 'Python & Backend', 'Cloud, DBs & DevOps', 'Frontend & JS'],
+                data: [45, 25, 20, 10],
+                colors: ['#3b82f6', '#10b981', '#f59e0b', '#64748b']
+            },
+            impact: {
+                labels: ['Doc Extraction Efficiency', 'Firestore Latency Reduction'],
+                data: [40, 40], // Percentages from resume
+                colors: ['#3b82f6', '#10b981']
+            }
+        };
+
+        // Render Charts when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Skills Doughnut Chart
+            const ctxSkills = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctxSkills, {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.skills.labels,
+                    datasets: [{
+                        data: chartData.skills.data,
+                        backgroundColor: chartData.skills.colors,
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart-container CSS constraints
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { family: 'Inter', size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ~' + context.parsed + '% of Tech Stack';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Impact Bar Chart
+            const ctxImpact = document.getElementById('impactChart').getContext('2d');
+            new Chart(ctxImpact, {
+                type: 'bar',
+                data: {
+                    labels: chartData.impact.labels,
+                    datasets: [{
+                        label: 'Improvement (%)',
+                        data: chartData.impact.data,
+                        backgroundColor: chartData.impact.colors,
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart-container CSS constraints
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)',
+                                font: { family: 'Inter' }
+                            },
+                            grid: { color: '#e2e8f0' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                // 16-char logic equivalent for wrapping labels natively in Chart.js
+                                callback: function(value, index, values) {
+                                    let label = this.getLabelForValue(value);
+                                    if (label.length > 16) {
+                                        return label.match(/.{1,16}(?:\s|$)/g); // Break into multiple lines
+                                    }
+                                    return label;
+                                },
+                                font: { family: 'Inter' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + '% Documented Improvement';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
